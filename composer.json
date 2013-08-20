@@ -1,0 +1,28 @@
+{
+    "name": "christiaan/zohocrmclient",
+    "type": "library",
+    "description": "Provides a clean readable PHP API to the Zoho Rest API",
+    "keywords": ["Zoho", "API Client", "CRM"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christiaan Baartse",
+            "email": "anotherhero@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "kriswallsmith/buzz": "~0.10",
+        "psr/log": "~1.0.0"
+    },
+    "autoload": {
+        "psr-0": {"Christiaan\\ZohoCRMClient": ""}
+    },
+    "target-dir": "Christiaan/ZohoCRMClient",
+    "minimum-stability": "stable",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

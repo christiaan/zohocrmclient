@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<response uri="/crm/private/xml/Leads/getRecords">
+    <result>
+        <Leads>
+            <row no="1">
+                <FL val="LEADID">938749000000065006</FL>
+                <FL val="Company"><![CDATA[acme]]></FL>
+                <FL val="Last Name"><![CDATA[Baartse]]></FL>
+            </row>
+        </Leads>
+    </result>
+</response>
