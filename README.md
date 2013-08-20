@@ -1,4 +1,6 @@
 # ZohoCRMClient
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/christiaan/zohocrmclient/badges/quality-score.png?s=67d109ea323c9024fb43ff1c8a23a5b4c676dbce)](https://scrutinizer-ci.com/g/christiaan/zohocrmclient/)
+[![Build Status](https://travis-ci.org/christiaan/zohocrmclient.png)](https://travis-ci.org/christiaan/zohocrmclient)
 
 Provides a clean readable PHP API to the [Zoho Rest API](https://www.zoho.com/crm/help/api/).
 
