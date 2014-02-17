@@ -1,7 +1,6 @@
 <?php
 namespace Christiaan\ZohoCRMClient\Tests;
 
-use Christiaan\ZohoCRMClient\Request\GetRecordById;
 use Christiaan\ZohoCRMClient\Request\GetRecords;
 use Christiaan\ZohoCRMClient\Transport\MockTransport;
 use Christiaan\ZohoCRMClient\ZohoCRMClient;

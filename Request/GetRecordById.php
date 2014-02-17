@@ -1,10 +1,6 @@
 <?php
 namespace Christiaan\ZohoCRMClient\Request;
 
-use Christiaan\ZohoCRMClient\Response\Record;
-use Christiaan\ZohoCRMClient\Exception\NoDataException;
-use Christiaan\ZohoCRMClient\Exception\UnexpectedValueException;
-
 /**
  * GetRecords API Call
  *

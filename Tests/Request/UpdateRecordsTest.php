@@ -24,6 +24,15 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
         $this->setUpdateRecords(new Request\UpdateRecords($this->request));
     }
 
+    public function testInitial()
+    {
+        $this->assertEquals('updateRecords', $this->request->getMethod());
+        $this->assertEquals(
+            4,
+            $this->updateRecords->getRequest()->getParam('version')
+        );
+    }
+
     public function testId()
     {
         $this->updateRecords->id('abc123');
@@ -35,9 +44,9 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
 
     public function testAddRecord()
     {
-        $this->updateRecords->addRecord(['abc123']);
+        $this->updateRecords->addRecord(array('abc123'));
         $this->assertEquals(
-            [['abc123']],
+            array(array('abc123')),
             $this->updateRecords->getRecords()
         );
     }
@@ -47,9 +56,9 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
         # Make sure an ID is set
         $this->testId();
 
-        $this->updateRecords->setRecords(['abc123']);
+        $this->updateRecords->setRecords(array('abc123'));
         $this->assertEquals(
-            ['abc123'],
+            array('abc123'),
             $this->updateRecords->getRecords()
         );
 

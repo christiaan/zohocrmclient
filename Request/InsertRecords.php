@@ -11,7 +11,7 @@ use Christiaan\ZohoCRMClient\Response\MutationResult;
 class InsertRecords extends AbstractRequest
 {
     /** @var array */
-    protected $records = [];
+    protected $records = array();
 
     public function __construct(TransportRequest $request)
     {

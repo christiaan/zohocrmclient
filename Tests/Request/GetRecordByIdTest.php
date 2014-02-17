@@ -21,7 +21,7 @@ class GetRecordByIdTest extends \PHPUnit_Framework_TestCase
 
     public function testSelectColumns()
     {
-        $this->getRecordById->selectColumns(['test']);
+        $this->getRecordById->selectColumns(array('test'));
         $this->assertEquals(
             'Leads(test)',
             $this->getRecordById->getRequest()->getParam('selectColumns')
@@ -29,7 +29,7 @@ class GetRecordByIdTest extends \PHPUnit_Framework_TestCase
         );
 
         # Verify that the implode is working
-        $this->getRecordById->selectColumns(['test', 'test2']);
+        $this->getRecordById->selectColumns(array('test', 'test2'));
         $this->assertEquals(
             'Leads(test,test2)',
             $this->getRecordById->getRequest()->getParam('selectColumns')
@@ -37,7 +37,7 @@ class GetRecordByIdTest extends \PHPUnit_Framework_TestCase
 
         # Verify that the getModule is working
         $this->getRecordById->getRequest()->setModule('Accounts');
-        $this->getRecordById->selectColumns(['test', 'test2']);
+        $this->getRecordById->selectColumns(array('test', 'test2'));
         $this->assertEquals(
             'Accounts(test,test2)',
             $this->getRecordById->getRequest()->getParam('selectColumns')

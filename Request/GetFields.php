@@ -1,10 +1,6 @@
 <?php
 namespace Christiaan\ZohoCRMClient\Request;
 
-use Christiaan\ZohoCRMClient\Exception\NoDataException;
-use Christiaan\ZohoCRMClient\Response\Field;
-use Christiaan\ZohoCRMClient\Exception\ZohoErrorException;
-
 /**
  * GetFields API Call
  *
