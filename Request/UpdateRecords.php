@@ -8,17 +8,16 @@ use Christiaan\ZohoCRMClient\Response\MutationResult;
  *
  * @see https://www.zoho.com/crm/help/api/insertrecords.html
  */
-class UpdateRecords implements Request
+class UpdateRecords extends AbstractRequest
 {
-    private $request;
-    private $records;
+    /** @var array */
+    protected $records = [];
 
     public function __construct(TransportRequest $request)
     {
-        $this->request = $request;
-        $this->request->setMethod('updateRecords');
-        $this->request->setParam('version', 4);
-        $this->records = array();
+        $this->setRequest($request);
+        $this->getRequest()->setMethod('updateRecords');
+        $this->getRequest()->setParam('version', 4);
     }
 
     /**
@@ -27,7 +26,7 @@ class UpdateRecords implements Request
      */
     public function id($id)
     {
-        $this->request->setParam('id', $id);
+        $this->getRequest()->setParam('id', $id);
 
         return $this;
     }
@@ -43,13 +42,21 @@ class UpdateRecords implements Request
     }
 
     /**
+     * @return array
+     */
+    public function getRecords()
+    {
+        return $this->records;
+    }
+
+    /**
      * @param array $records array containing records otherwise added by addRecord()
      * @return UpdateRecords
      */
     public function setRecords(array $records)
     {
         # Must make sure this is not set on a "update multiple records" call
-        $this->request->removeParam('id');
+        $this->getRequest()->removeParam('id');
 
         $this->records = $records;
         return $this;
@@ -60,7 +67,7 @@ class UpdateRecords implements Request
      */
     public function triggerWorkflow()
     {
-        $this->request->setParam('wfTrigger', true);
+        $this->getRequest()->setParam('wfTrigger', true);
         return $this;
     }
 
@@ -69,7 +76,7 @@ class UpdateRecords implements Request
      */
     public function onDuplicateUpdate()
     {
-        $this->request->setParam('duplicateCheck', 2);
+        $this->getRequest()->setParam('duplicateCheck', 2);
         return $this;
     }
 
@@ -78,7 +85,7 @@ class UpdateRecords implements Request
      */
     public function onDuplicateError()
     {
-        $this->request->setParam('duplicateCheck', 1);
+        $this->getRequest()->setParam('duplicateCheck', 1);
         return $this;
     }
 
@@ -87,7 +94,7 @@ class UpdateRecords implements Request
      */
     public function requireApproval()
     {
-        $this->request->setParam('isApproval', true);
+        $this->getRequest()->setParam('isApproval', true);
         return $this;
     }
 
@@ -96,7 +103,7 @@ class UpdateRecords implements Request
      */
     public function request()
     {
-        $this->request->setParam('xmlData', $this->records);
-        return $this->request->request();
+        $this->getRequest()->setParam('xmlData', $this->records);
+        return $this->getRequest()->request();
     }
 }

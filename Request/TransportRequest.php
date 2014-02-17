@@ -106,4 +106,20 @@ class TransportRequest
             $this->paramList
         );
     }
+
+    /**
+     * @param string $module
+     */
+    public function setModule( $module )
+    {
+        $this->module = $module;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModule()
+    {
+        return $this->module;
+    }
 }

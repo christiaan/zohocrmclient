@@ -12,18 +12,19 @@ use Christiaan\ZohoCRMClient\Exception\UnexpectedValueException;
  *
  * @see https://www.zoho.com/crm/help/api/getrecords.html
  */
-class GetRecordById implements Request
+class GetRecordById  extends AbstractRequest
 {
     protected $method = 'getRecordById';
 
-    private $request;
-
+    /**
+     * @param TransportRequest $request
+     */
     function __construct(TransportRequest $request)
     {
-        $this->request = $request;
-        $this->request->setMethod($this->method);
+        $this->setRequest($request);
+        $this->getRequest()->setMethod($this->method);
 
-        $this->request->setParam('selectColumns', 'All');
+        $this->getRequest()->setParam('selectColumns', 'All');
     }
 
     /**
@@ -38,9 +39,9 @@ class GetRecordById implements Request
         if (is_string($columns)) {
             $columns = func_get_args();
         }
-        $this->request->setParam(
+        $this->getRequest()->setParam(
             'selectColumns',
-            'Leads(' . implode(',', $columns) .')'
+            $this->getRequest()->getModule().'(' . implode(',', $columns) .')'
         );
         return $this;
     }
@@ -51,21 +52,8 @@ class GetRecordById implements Request
      */
     public function id($id)
     {
-        $this->request->setParam('id', $id);
+        $this->getRequest()->setParam('id', $id);
 
         return $this;
-    }
-
-    /**
-     * @throws UnexpectedValueException
-     * @return Record[]
-     */
-    public function request()
-    {
-        try {
-            return $this->request->request();
-        } catch (NoDataException $e) {
-            return array();
-        }
     }
 }

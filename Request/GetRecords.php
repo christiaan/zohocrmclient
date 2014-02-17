@@ -12,18 +12,17 @@ use Christiaan\ZohoCRMClient\Exception\UnexpectedValueException;
  *
  * @see https://www.zoho.com/crm/help/api/getrecords.html
  */
-class GetRecords implements Request
+class GetRecords extends AbstractRequest
 {
+    /** @var string */
     protected $method = 'getRecords';
-
-    private $request;
 
     function __construct(TransportRequest $request)
     {
-        $this->request = $request;
-        $this->request->setMethod($this->method);
+        $this->setRequest($request);
+        $this->getRequest()->setMethod($this->method);
 
-        $this->request->setParam('selectColumns', 'All');
+        $this->getRequest()->setParam('selectColumns', 'All');
     }
 
     /**
@@ -38,9 +37,9 @@ class GetRecords implements Request
         if (is_string($columns)) {
             $columns = func_get_args();
         }
-        $this->request->setParam(
+        $this->getRequest()->setParam(
             'selectColumns',
-            'Leads(' . implode(',', $columns) .')'
+            $this->getRequest()->getModule().'(' . implode(',', $columns) .')'
         );
         return $this;
     }
@@ -51,7 +50,7 @@ class GetRecords implements Request
      */
     public function fromIndex($index)
     {
-        $this->request->setParam('fromIndex', (int) $index);
+        $this->getRequest()->setParam('fromIndex', (int) $index);
         return $this;
     }
 
@@ -61,7 +60,7 @@ class GetRecords implements Request
      */
     public function toIndex($index)
     {
-        $this->request->setParam('toIndex', (int) $index);
+        $this->getRequest()->setParam('toIndex', (int) $index);
         return $this;
     }
 
@@ -71,7 +70,7 @@ class GetRecords implements Request
      */
     public function sortBy($column)
     {
-        $this->request->setParam('sortColumnString', (string) $column);
+        $this->getRequest()->setParam('sortColumnString', (string) $column);
         return $this;
     }
 
@@ -101,25 +100,12 @@ class GetRecords implements Request
      */
     public function since(\DateTime $timestamp)
     {
-        $this->request->setParam('lastModifiedTime', $timestamp->format('Y-m-d H:i:s'));
+        $this->getRequest()->setParam('lastModifiedTime', $timestamp->format('Y-m-d H:i:s'));
         return $this;
-    }
-
-    /**
-     * @throws UnexpectedValueException
-     * @return Record[]
-     */
-    public function request()
-    {
-        try {
-            return $this->request->request();
-        } catch (NoDataException $e) {
-            return array();
-        }
     }
 
     private function sortOrder($direction)
     {
-        $this->request->setParam('sortOrderString', $direction);
+        $this->getRequest()->setParam('sortOrderString', $direction);
     }
 }

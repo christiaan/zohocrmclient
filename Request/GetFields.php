@@ -10,26 +10,11 @@ use Christiaan\ZohoCRMClient\Exception\ZohoErrorException;
  *
  * @see https://www.zoho.com/crm/help/api/getfields.html
  */
-class GetFields implements Request
+class GetFields extends AbstractRequest
 {
-    private $request;
-
     public function __construct(TransportRequest $request)
     {
-        $this->request = $request;
-        $this->request->setMethod('getFields');
-    }
-
-    /**
-     * @throws ZohoErrorException
-     * @return Field[]
-     */
-    public function request()
-    {
-        try {
-            return $this->request->request();
-        } catch (NoDataException $e) {
-            return array();
-        }
+        $this->setRequest($request);
+        $this->getRequest()->setMethod('getFields');
     }
 }

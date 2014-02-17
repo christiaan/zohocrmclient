@@ -92,7 +92,7 @@ class ZohoCRMClient implements LoggerAwareInterface
     /**
      * @return Request\TransportRequest
      */
-    private function request()
+    protected function request()
     {
         $request = new Request\TransportRequest($this->module);
         $request->setTransport($this->transport);
