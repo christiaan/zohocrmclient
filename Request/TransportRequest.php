@@ -63,6 +63,15 @@ class TransportRequest
     }
 
     /**
+     * @param $key
+     */
+    public function removeParam($key)
+    {
+        if(isset($this->paramList[$key]))
+            unset($this->paramList[$key]);
+    }
+
+    /**
      * @param string $key
      * @param mixed $value
      * @return TransportRequest
@@ -96,5 +105,21 @@ class TransportRequest
             $this->method,
             $this->paramList
         );
+    }
+
+    /**
+     * @param string $module
+     */
+    public function setModule( $module )
+    {
+        $this->module = $module;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModule()
+    {
+        return $this->module;
     }
 }

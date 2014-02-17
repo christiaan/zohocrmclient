@@ -4,7 +4,7 @@ namespace Christiaan\ZohoCRMClient\Request;
 /**
  * All public API requests implement this interface
  */
-interface Request
+interface RequestInterface
 {
     /**
      * @param TransportRequest $request

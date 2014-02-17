@@ -10,7 +10,7 @@ class ZohoCRMClientTest extends \PHPUnit_Framework_TestCase
     /** @var MockTransport */
     private $transport;
 
-    /** @var ZohoCRMClient */
+    /** @var mockZohoCRMClient */
     private $client;
 
     public function testGetRecords()
@@ -26,10 +26,51 @@ class ZohoCRMClientTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($request instanceof GetRecords);
     }
 
+    public function testGetRecordById()
+    {
+        $request = $this->client->getRecordById();
+
+        $this->assertInstanceOf('Christiaan\ZohoCRMClient\Request\GetRecordById', $request);
+    }
+
+    public function testInsertRecords()
+    {
+        $request = $this->client->insertRecords();
+
+        $this->assertInstanceOf('Christiaan\ZohoCRMClient\Request\InsertRecords', $request);
+    }
+
+    public function testUpdateRecords()
+    {
+        $request = $this->client->updateRecords();
+
+        $this->assertInstanceOf('Christiaan\ZohoCRMClient\Request\UpdateRecords', $request);
+    }
+
+    public function testGetFields()
+    {
+        $request = $this->client->getFields();
+
+        $this->assertInstanceOf('Christiaan\ZohoCRMClient\Request\GetFields', $request);
+    }
+
+    public function testRequest()
+    {
+        $request = $this->client->publicRequest();
+
+        $this->assertInstanceOf('Christiaan\ZohoCRMClient\Request\TransportRequest', $request);
+    }
+
     protected function setUp()
     {
         $this->transport = new MockTransport();
-        $this->client = new ZohoCRMClient('Leads', $this->transport);
+        $this->client = new mockZohoCRMClient('Leads', $this->transport);
     }
 }
- 
+
+class mockZohoCRMClient extends ZohoCRMClient {
+    public function publicRequest()
+    {
+        return $this->request();
+    }
+}

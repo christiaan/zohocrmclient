@@ -8,7 +8,7 @@ use Christiaan\ZohoCRMClient\Response\MutationResult;
  *
  * @see https://www.zoho.com/crm/help/api/insertrecords.html
  */
-class InsertRecords extends AbstractRequest
+class UpdateRecords extends AbstractRequest
 {
     /** @var array */
     protected $records = array();
@@ -16,13 +16,24 @@ class InsertRecords extends AbstractRequest
     public function __construct(TransportRequest $request)
     {
         $this->setRequest($request);
-        $this->getRequest()->setMethod('insertRecords');
+        $this->getRequest()->setMethod('updateRecords');
         $this->getRequest()->setParam('version', 4);
     }
 
     /**
+     * @param string $id
+     * @return GetRecordById
+     */
+    public function id($id)
+    {
+        $this->getRequest()->setParam('id', $id);
+
+        return $this;
+    }
+
+    /**
      * @param array $record Record as a simple associative array
-     * @return InsertRecords
+     * @return UpdateRecords
      */
     public function addRecord(array $record)
     {
@@ -31,17 +42,28 @@ class InsertRecords extends AbstractRequest
     }
 
     /**
+     * @return array
+     */
+    public function getRecords()
+    {
+        return $this->records;
+    }
+
+    /**
      * @param array $records array containing records otherwise added by addRecord()
-     * @return InsertRecords
+     * @return UpdateRecords
      */
     public function setRecords(array $records)
     {
+        # Must make sure this is not set on a "update multiple records" call
+        $this->getRequest()->removeParam('id');
+
         $this->records = $records;
         return $this;
     }
 
     /**
-     * @return InsertRecords
+     * @return UpdateRecords
      */
     public function triggerWorkflow()
     {
@@ -50,7 +72,7 @@ class InsertRecords extends AbstractRequest
     }
 
     /**
-     * @return InsertRecords
+     * @return UpdateRecords
      */
     public function onDuplicateUpdate()
     {
@@ -59,7 +81,7 @@ class InsertRecords extends AbstractRequest
     }
 
     /**
-     * @return InsertRecords
+     * @return UpdateRecords
      */
     public function onDuplicateError()
     {
@@ -68,7 +90,7 @@ class InsertRecords extends AbstractRequest
     }
 
     /**
-     * @return InsertRecords
+     * @return UpdateRecords
      */
     public function requireApproval()
     {
