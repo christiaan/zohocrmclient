@@ -63,6 +63,15 @@ class TransportRequest
     }
 
     /**
+     * @param $key
+     */
+    public function removeParam($key)
+    {
+        if(isset($this->paramList[$key]))
+            unset($this->paramList[$key]);
+    }
+
+    /**
      * @param string $key
      * @param mixed $value
      * @return TransportRequest

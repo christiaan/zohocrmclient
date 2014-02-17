@@ -58,11 +58,27 @@ class ZohoCRMClient implements LoggerAwareInterface
     }
 
     /**
+     * @return Request\GetRecordById
+     */
+    public function getRecordById()
+    {
+        return new Request\GetRecordById($this->request());
+    }
+
+    /**
      * @return Request\InsertRecords
      */
     public function insertRecords()
     {
         return new Request\InsertRecords($this->request());
+    }
+
+    /**
+     * @return Request\UpdateRecords
+     */
+    public function updateRecords()
+    {
+        return new Request\UpdateRecords($this->request());
     }
 
     /**
