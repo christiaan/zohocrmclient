@@ -38,11 +38,13 @@ $transport = new XmlDataTransportDecorator(
 $client = new ZohoCRMClient('Leads', $transport);
 ```
 
-## Unimplemented Calls
-At the moment only the folowing calls are supported
+## Implemented Calls
+At the moment only the following calls are supported
 - getRecords
+- getRecordById
 - insertRecords
+- updateRecords
 - getFields
 
 It is rather easy to add new calls, look at one of the classes in the Request dir for examples.
-After the Request class is made it might be nessecary to alter the parsing of the response XML in the XmlDataTransportDecorator class.
+After the Request class is made it might be necessary to alter the parsing of the response XML in the XmlDataTransportDecorator class.

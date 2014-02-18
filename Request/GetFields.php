@@ -8,9 +8,8 @@ namespace Christiaan\ZohoCRMClient\Request;
  */
 class GetFields extends AbstractRequest
 {
-    public function __construct(TransportRequest $request)
+    protected function configureRequest()
     {
-        $this->setRequest($request);
-        $this->getRequest()->setMethod('getFields');
+        $this->request->setMethod('getFields');
     }
 }

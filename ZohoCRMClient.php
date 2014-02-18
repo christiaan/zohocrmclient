@@ -58,11 +58,16 @@ class ZohoCRMClient implements LoggerAwareInterface
     }
 
     /**
+     * @param int|null $id
      * @return Request\GetRecordById
      */
-    public function getRecordById()
+    public function getRecordById($id = null)
     {
-        return new Request\GetRecordById($this->request());
+        $request = new Request\GetRecordById($this->request());
+        if ($id !== null) {
+            $request->id($id);
+        }
+        return $request;
     }
 
     /**
@@ -90,11 +95,11 @@ class ZohoCRMClient implements LoggerAwareInterface
     }
 
     /**
-     * @return Request\TransportRequest
+     * @return \Christiaan\ZohoCRMClient\Transport\TransportRequest
      */
     protected function request()
     {
-        $request = new Request\TransportRequest($this->module);
+        $request = new Transport\TransportRequest($this->module);
         $request->setTransport($this->transport);
         return $request;
     }

@@ -2,10 +2,11 @@
 namespace Christiaan\ZohoCRMClient\Tests\Request;
 
 use Christiaan\ZohoCRMClient\Request;
+use Christiaan\ZohoCRMClient\Transport\TransportRequest;
 
 class GetRecordsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Request\TransportRequest */
+    /** @var TransportRequest */
     private $request;
     /** @var Request\GetRecords */
     private $getRecords;
@@ -18,7 +19,7 @@ class GetRecordsTest extends \PHPUnit_Framework_TestCase
 
         $this->getRecords->selectColumns('Last Name', 'Email');
 
-        $this->assertEquals('Leads(Last Name,Email)', $this->request->getParam($key));
+        $this->assertEquals('SomeModuleName(Last Name,Email)', $this->request->getParam($key));
     }
 
     public function testFromIndex()
@@ -74,7 +75,7 @@ class GetRecordsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->request = new Request\TransportRequest('Leads');
+        $this->request = new TransportRequest('SomeModuleName');
 
         $this->getRecords = new Request\GetRecords($this->request);
     }

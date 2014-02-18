@@ -2,10 +2,11 @@
 namespace Christiaan\ZohoCRMClient\Tests\Request;
 
 use Christiaan\ZohoCRMClient\Request;
+use Christiaan\ZohoCRMClient\Transport\TransportRequest;
 
 class GetRecordByIdTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Request\TransportRequest */
+    /** @var TransportRequest */
     private $request;
     /** @var Request\GetRecordById */
     private $getRecordById;
@@ -15,7 +16,7 @@ class GetRecordByIdTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('getRecordById', $this->request->getMethod());
         $this->assertEquals(
             'All',
-            $this->getRecordById->getRequest()->getParam('selectColumns')
+            $this->request->getParam('selectColumns')
         );
     }
 
@@ -23,24 +24,15 @@ class GetRecordByIdTest extends \PHPUnit_Framework_TestCase
     {
         $this->getRecordById->selectColumns(array('test'));
         $this->assertEquals(
-            'Leads(test)',
-            $this->getRecordById->getRequest()->getParam('selectColumns')
+            'MyOwnModuleName(test)',
+            $this->request->getParam('selectColumns')
 
         );
 
-        # Verify that the implode is working
-        $this->getRecordById->selectColumns(array('test', 'test2'));
+        $this->getRecordById->selectColumns(array('test', 'test2', 'test4'));
         $this->assertEquals(
-            'Leads(test,test2)',
-            $this->getRecordById->getRequest()->getParam('selectColumns')
-        );
-
-        # Verify that the getModule is working
-        $this->getRecordById->getRequest()->setModule('Accounts');
-        $this->getRecordById->selectColumns(array('test', 'test2'));
-        $this->assertEquals(
-            'Accounts(test,test2)',
-            $this->getRecordById->getRequest()->getParam('selectColumns')
+            'MyOwnModuleName(test,test2,test4)',
+            $this->request->getParam('selectColumns')
         );
     }
 
@@ -49,13 +41,13 @@ class GetRecordByIdTest extends \PHPUnit_Framework_TestCase
         $this->getRecordById->id('abc123');
         $this->assertEquals(
             'abc123',
-            $this->getRecordById->getRequest()->getParam('id')
+            $this->request->getParam('id')
         );
     }
 
     protected function setUp()
     {
-        $this->request = new Request\TransportRequest('Leads');
+        $this->request = new TransportRequest('MyOwnModuleName');
         $this->setGetRecordById(new Request\GetRecordById($this->request));
     }
 

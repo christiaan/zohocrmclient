@@ -10,15 +10,11 @@ namespace Christiaan\ZohoCRMClient\Request;
  */
 class GetRecords extends AbstractRequest
 {
-    /** @var string */
-    protected $method = 'getRecords';
-
-    function __construct(TransportRequest $request)
+    protected function configureRequest()
     {
-        $this->setRequest($request);
-        $this->getRequest()->setMethod($this->method);
-
-        $this->getRequest()->setParam('selectColumns', 'All');
+        $this->request
+            ->setMethod('getRecords')
+            ->setParam('selectColumns', 'All');
     }
 
     /**
@@ -30,12 +26,12 @@ class GetRecords extends AbstractRequest
      */
     public function selectColumns($columns)
     {
-        if (is_string($columns)) {
+        if (!is_array($columns)) {
             $columns = func_get_args();
         }
-        $this->getRequest()->setParam(
+        $this->request->setParam(
             'selectColumns',
-            $this->getRequest()->getModule().'(' . implode(',', $columns) .')'
+            $this->request->getModule() . '(' . implode(',', $columns) . ')'
         );
         return $this;
     }
@@ -46,7 +42,7 @@ class GetRecords extends AbstractRequest
      */
     public function fromIndex($index)
     {
-        $this->getRequest()->setParam('fromIndex', (int) $index);
+        $this->request->setParam('fromIndex', (int) $index);
         return $this;
     }
 
@@ -56,7 +52,7 @@ class GetRecords extends AbstractRequest
      */
     public function toIndex($index)
     {
-        $this->getRequest()->setParam('toIndex', (int) $index);
+        $this->request->setParam('toIndex', (int) $index);
         return $this;
     }
 
@@ -66,7 +62,7 @@ class GetRecords extends AbstractRequest
      */
     public function sortBy($column)
     {
-        $this->getRequest()->setParam('sortColumnString', (string) $column);
+        $this->request->setParam('sortColumnString', (string) $column);
         return $this;
     }
 
@@ -96,12 +92,12 @@ class GetRecords extends AbstractRequest
      */
     public function since(\DateTime $timestamp)
     {
-        $this->getRequest()->setParam('lastModifiedTime', $timestamp->format('Y-m-d H:i:s'));
+        $this->request->setParam('lastModifiedTime', $timestamp->format('Y-m-d H:i:s'));
         return $this;
     }
 
     private function sortOrder($direction)
     {
-        $this->getRequest()->setParam('sortOrderString', $direction);
+        $this->request->setParam('sortOrderString', $direction);
     }
 }

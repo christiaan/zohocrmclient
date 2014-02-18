@@ -3,12 +3,13 @@ namespace Christiaan\ZohoCRMClient\Tests\Request;
 
 use Christiaan\ZohoCRMClient\Request;
 use Christiaan\ZohoCRMClient\Transport\MockTransport;
+use Christiaan\ZohoCRMClient\Transport\TransportRequest;
 
 class InsertRecordsTest extends \PHPUnit_Framework_TestCase
 {
     /** @var MockTransport */
     private $transport;
-    /** @var Request\TransportRequest */
+    /** @var TransportRequest */
     private $request;
     /** @var Request\InsertRecords */
     private $insertRecords;
@@ -56,7 +57,7 @@ class InsertRecordsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->request = new Request\TransportRequest('Leads');
+        $this->request = new TransportRequest('Leads');
         $this->transport = new MockTransport();
         $this->request->setTransport($this->transport);
 

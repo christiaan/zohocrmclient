@@ -1,22 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gwagner
- * Date: 2/17/14
- * Time: 10:35 AM
- */ 
-
 namespace Christiaan\ZohoCRMClient\Request;
 
 use Christiaan\ZohoCRMClient\Exception\NoDataException;
 use Christiaan\ZohoCRMClient\Exception\UnexpectedValueException;
 use Christiaan\ZohoCRMClient\Response\Field;
 use Christiaan\ZohoCRMClient\Response\Record;
+use Christiaan\ZohoCRMClient\Transport\TransportRequest;
 
 abstract class AbstractRequest implements RequestInterface
 {
     /** @var TransportRequest */
     protected $request;
+
+    public function __construct(TransportRequest $request)
+    {
+        $this->request = $request;
+        $this->configureRequest();
+    }
 
     /**
      * @throws UnexpectedValueException
@@ -25,25 +25,11 @@ abstract class AbstractRequest implements RequestInterface
     public function request()
     {
         try {
-            return $this->getRequest()->request();
+            return $this->request->request();
         } catch (NoDataException $e) {
             return array();
         }
     }
 
-    /**
-     * @param \Christiaan\ZohoCRMClient\Request\TransportRequest $request
-     */
-    public function setRequest( $request )
-    {
-        $this->request = $request;
-    }
-
-    /**
-     * @return \Christiaan\ZohoCRMClient\Request\TransportRequest
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
+    abstract protected function configureRequest();
 }

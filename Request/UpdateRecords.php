@@ -11,13 +11,13 @@ use Christiaan\ZohoCRMClient\Response\MutationResult;
 class UpdateRecords extends AbstractRequest
 {
     /** @var array */
-    protected $records = array();
+    private $records = array();
 
-    public function __construct(TransportRequest $request)
+    protected function configureRequest()
     {
-        $this->setRequest($request);
-        $this->getRequest()->setMethod('updateRecords');
-        $this->getRequest()->setParam('version', 4);
+        $this->request
+            ->setMethod('updateRecords')
+            ->setParam('version', 4);
     }
 
     /**
@@ -26,7 +26,7 @@ class UpdateRecords extends AbstractRequest
      */
     public function id($id)
     {
-        $this->getRequest()->setParam('id', $id);
+        $this->request->setParam('id', $id);
 
         return $this;
     }
@@ -55,9 +55,6 @@ class UpdateRecords extends AbstractRequest
      */
     public function setRecords(array $records)
     {
-        # Must make sure this is not set on a "update multiple records" call
-        $this->getRequest()->removeParam('id');
-
         $this->records = $records;
         return $this;
     }
@@ -67,7 +64,7 @@ class UpdateRecords extends AbstractRequest
      */
     public function triggerWorkflow()
     {
-        $this->getRequest()->setParam('wfTrigger', true);
+        $this->request->setParam('wfTrigger', true);
         return $this;
     }
 
@@ -76,7 +73,7 @@ class UpdateRecords extends AbstractRequest
      */
     public function onDuplicateUpdate()
     {
-        $this->getRequest()->setParam('duplicateCheck', 2);
+        $this->request->setParam('duplicateCheck', 2);
         return $this;
     }
 
@@ -85,7 +82,7 @@ class UpdateRecords extends AbstractRequest
      */
     public function onDuplicateError()
     {
-        $this->getRequest()->setParam('duplicateCheck', 1);
+        $this->request->setParam('duplicateCheck', 1);
         return $this;
     }
 
@@ -94,7 +91,7 @@ class UpdateRecords extends AbstractRequest
      */
     public function requireApproval()
     {
-        $this->getRequest()->setParam('isApproval', true);
+        $this->request->setParam('isApproval', true);
         return $this;
     }
 
@@ -103,7 +100,12 @@ class UpdateRecords extends AbstractRequest
      */
     public function request()
     {
-        $this->getRequest()->setParam('xmlData', $this->records);
-        return $this->getRequest()->request();
+        if (count($this->records) > 1) {
+            $this->request->setParam('id', null);
+        }
+
+        return $this->request
+            ->setParam('xmlData', $this->records)
+            ->request();
     }
 }

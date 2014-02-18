@@ -11,13 +11,13 @@ use Christiaan\ZohoCRMClient\Response\MutationResult;
 class InsertRecords extends AbstractRequest
 {
     /** @var array */
-    protected $records = array();
+    private $records = array();
 
-    public function __construct(TransportRequest $request)
+    protected function configureRequest()
     {
-        $this->setRequest($request);
-        $this->getRequest()->setMethod('insertRecords');
-        $this->getRequest()->setParam('version', 4);
+        $this->request
+            ->setMethod('insertRecords')
+            ->setParam('version', 4);
     }
 
     /**
@@ -45,7 +45,7 @@ class InsertRecords extends AbstractRequest
      */
     public function triggerWorkflow()
     {
-        $this->getRequest()->setParam('wfTrigger', true);
+        $this->request->setParam('wfTrigger', true);
         return $this;
     }
 
@@ -54,7 +54,7 @@ class InsertRecords extends AbstractRequest
      */
     public function onDuplicateUpdate()
     {
-        $this->getRequest()->setParam('duplicateCheck', 2);
+        $this->request->setParam('duplicateCheck', 2);
         return $this;
     }
 
@@ -63,7 +63,7 @@ class InsertRecords extends AbstractRequest
      */
     public function onDuplicateError()
     {
-        $this->getRequest()->setParam('duplicateCheck', 1);
+        $this->request->setParam('duplicateCheck', 1);
         return $this;
     }
 
@@ -72,7 +72,7 @@ class InsertRecords extends AbstractRequest
      */
     public function requireApproval()
     {
-        $this->getRequest()->setParam('isApproval', true);
+        $this->request->setParam('isApproval', true);
         return $this;
     }
 
@@ -81,7 +81,8 @@ class InsertRecords extends AbstractRequest
      */
     public function request()
     {
-        $this->getRequest()->setParam('xmlData', $this->records);
-        return $this->getRequest()->request();
+        return $this->request
+            ->setParam('xmlData', $this->records)
+            ->request();
     }
 }

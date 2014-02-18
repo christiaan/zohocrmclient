@@ -1,18 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gwagner
- * Date: 2/17/14
- * Time: 10:50 AM
- */
-
 namespace Christiaan\ZohoCRMClient\Tests\Request;
 
 use Christiaan\ZohoCRMClient\Request;
+use Christiaan\ZohoCRMClient\Transport\MockTransport;
+use Christiaan\ZohoCRMClient\Transport\TransportRequest;
 
 class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Request\TransportRequest */
+    /** @var MockTransport */
+    private $transport;
+
+    /** @var TransportRequest */
     private $request;
 
     /** @var Request\UpdateRecords */
@@ -20,8 +18,10 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->request = new Request\TransportRequest('Leads');
-        $this->setUpdateRecords(new Request\UpdateRecords($this->request));
+        $this->transport = new MockTransport();
+        $this->request = new TransportRequest('Leads');
+        $this->request->setTransport($this->transport);
+        $this->updateRecords = new Request\UpdateRecords($this->request);
     }
 
     public function testInitial()
@@ -29,7 +29,7 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('updateRecords', $this->request->getMethod());
         $this->assertEquals(
             4,
-            $this->updateRecords->getRequest()->getParam('version')
+            $this->request->getParam('version')
         );
     }
 
@@ -38,34 +38,34 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
         $this->updateRecords->id('abc123');
         $this->assertEquals(
             'abc123',
-            $this->updateRecords->getRequest()->getParam('id')
+            $this->request->getParam('id')
         );
     }
 
     public function testAddRecord()
     {
         $this->updateRecords->addRecord(array('abc123'));
-        $this->assertEquals(
-            array(array('abc123')),
-            $this->updateRecords->getRecords()
-        );
+
+        $this->transport->response = true;
+
+        $this->assertTrue($this->updateRecords->request());
+        $this->assertEquals(array('version' => 4, 'xmlData' =>  array(array('abc123'))), $this->transport->paramList);
     }
 
-    public function testSetRecords()
+    public function testNoIdIsSetForMultipleUpdate()
     {
-        # Make sure an ID is set
+        // Make sure an ID is set
         $this->testId();
 
-        $this->updateRecords->setRecords(array('abc123'));
-        $this->assertEquals(
-            array('abc123'),
-            $this->updateRecords->getRecords()
-        );
+        $this->updateRecords->addRecord(array('abc123'));
+        $this->updateRecords->addRecord(array('abc123456'));
 
-        # Test that the ID is removed
+        $this->updateRecords->request();
+
+        // Test that the ID is removed
         $this->assertNotEquals(
             'abc123',
-            $this->updateRecords->getRequest()->getParam('id')
+            $this->request->getParam('id')
         );
     }
 
@@ -73,7 +73,7 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
     {
         $this->updateRecords->triggerWorkflow();
         $this->assertTrue(
-            $this->updateRecords->getRequest()->getParam('wfTrigger')
+            $this->request->getParam('wfTrigger')
         );
     }
 
@@ -82,7 +82,7 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
         $this->updateRecords->onDuplicateUpdate();
         $this->assertEquals(
             2,
-            $this->updateRecords->getRequest()->getParam('duplicateCheck')
+            $this->request->getParam('duplicateCheck')
         );
     }
 
@@ -91,7 +91,7 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
         $this->updateRecords->onDuplicateError();
         $this->assertEquals(
             1,
-            $this->updateRecords->getRequest()->getParam('duplicateCheck')
+            $this->request->getParam('duplicateCheck')
         );
     }
 
@@ -99,23 +99,7 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
     {
         $this->updateRecords->requireApproval();
         $this->assertTrue(
-            $this->updateRecords->getRequest()->getParam('isApproval')
+            $this->request->getParam('isApproval')
         );
-    }
-
-    /**
-     * @param \Christiaan\ZohoCRMClient\Request\UpdateRecords $updateRecords
-     */
-    public function setUpdateRecords( $updateRecords )
-    {
-        $this->updateRecords = $updateRecords;
-    }
-
-    /**
-     * @return \Christiaan\ZohoCRMClient\Request\UpdateRecords
-     */
-    public function getUpdateRecords()
-    {
-        return $this->updateRecords;
     }
 }

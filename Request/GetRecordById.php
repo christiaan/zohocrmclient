@@ -2,25 +2,19 @@
 namespace Christiaan\ZohoCRMClient\Request;
 
 /**
- * GetRecords API Call
+ * GetRecordById API Call
  *
- * You can use the getRecords method to fetch all users data specified in the API request.
+ * You can use this method to retrieve individual records by record ID.
  *
- * @see https://www.zoho.com/crm/help/api/getrecords.html
+ * @see https://www.zoho.com/crm/help/api/getrecordbyid.html
  */
 class GetRecordById  extends AbstractRequest
 {
-    protected $method = 'getRecordById';
-
-    /**
-     * @param TransportRequest $request
-     */
-    function __construct(TransportRequest $request)
+    protected function configureRequest()
     {
-        $this->setRequest($request);
-        $this->getRequest()->setMethod($this->method);
-
-        $this->getRequest()->setParam('selectColumns', 'All');
+        $this->request
+            ->setMethod('getRecordById')
+            ->setParam('selectColumns', 'All');
     }
 
     /**
@@ -32,12 +26,12 @@ class GetRecordById  extends AbstractRequest
      */
     public function selectColumns($columns)
     {
-        if (is_string($columns)) {
+        if (!is_array($columns)) {
             $columns = func_get_args();
         }
-        $this->getRequest()->setParam(
+        $this->request->setParam(
             'selectColumns',
-            $this->getRequest()->getModule().'(' . implode(',', $columns) .')'
+            $this->request->getModule() . '(' . implode(',', $columns) . ')'
         );
         return $this;
     }
@@ -48,7 +42,7 @@ class GetRecordById  extends AbstractRequest
      */
     public function id($id)
     {
-        $this->getRequest()->setParam('id', $id);
+        $this->request->setParam('id', $id);
 
         return $this;
     }

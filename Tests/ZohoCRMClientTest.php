@@ -58,7 +58,7 @@ class ZohoCRMClientTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->client->publicRequest();
 
-        $this->assertInstanceOf('Christiaan\ZohoCRMClient\Request\TransportRequest', $request);
+        $this->assertInstanceOf('Christiaan\ZohoCRMClient\Transport\TransportRequest', $request);
     }
 
     protected function setUp()

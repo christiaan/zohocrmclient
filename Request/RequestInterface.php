@@ -1,6 +1,8 @@
 <?php
 namespace Christiaan\ZohoCRMClient\Request;
 
+use Christiaan\ZohoCRMClient\Transport\TransportRequest;
+
 /**
  * All public API requests implement this interface
  */

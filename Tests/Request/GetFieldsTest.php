@@ -2,10 +2,11 @@
 namespace Christiaan\ZohoCRMClient\Tests\Request;
 
 use Christiaan\ZohoCRMClient\Request;
+use Christiaan\ZohoCRMClient\Transport\TransportRequest;
 
 class GetFieldsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Request\TransportRequest */
+    /** @var TransportRequest */
     private $request;
     /** @var Request\GetFields */
     private $getFields;
@@ -17,7 +18,7 @@ class GetFieldsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->request = new Request\TransportRequest('Leads');
+        $this->request = new TransportRequest('Leads');
         $this->getFields = new Request\GetFields($this->request);
     }
 }
