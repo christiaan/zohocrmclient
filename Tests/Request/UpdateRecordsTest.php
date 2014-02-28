@@ -72,7 +72,8 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
     public function testTriggerWorkflow()
     {
         $this->updateRecords->triggerWorkflow();
-        $this->assertTrue(
+        $this->assertEquals(
+            'true',
             $this->request->getParam('wfTrigger')
         );
     }
@@ -98,7 +99,8 @@ class UpdateRecordsTest extends \PHPUnit_Framework_TestCase
     public function testRequireApproval()
     {
         $this->updateRecords->requireApproval();
-        $this->assertTrue(
+        $this->assertEquals(
+            'true',
             $this->request->getParam('isApproval')
         );
     }

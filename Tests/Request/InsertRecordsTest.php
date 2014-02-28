@@ -36,7 +36,7 @@ class InsertRecordsTest extends \PHPUnit_Framework_TestCase
     {
         $this->insertRecords->triggerWorkflow();
 
-        $this->assertTrue($this->request->getParam('wfTrigger'));
+        $this->assertEquals('true', $this->request->getParam('wfTrigger'));
     }
 
     public function testOnDuplicate()
@@ -52,7 +52,7 @@ class InsertRecordsTest extends \PHPUnit_Framework_TestCase
     {
         $this->insertRecords->requireApproval();
 
-        $this->assertTrue($this->request->getParam('isApproval'));
+        $this->assertEquals('true', $this->request->getParam('isApproval'));
     }
 
     protected function setUp()

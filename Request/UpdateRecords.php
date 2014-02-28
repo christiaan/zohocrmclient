@@ -64,7 +64,7 @@ class UpdateRecords extends AbstractRequest
      */
     public function triggerWorkflow()
     {
-        $this->request->setParam('wfTrigger', true);
+        $this->request->setParam('wfTrigger', 'true');
         return $this;
     }
 
@@ -91,7 +91,7 @@ class UpdateRecords extends AbstractRequest
      */
     public function requireApproval()
     {
-        $this->request->setParam('isApproval', true);
+        $this->request->setParam('isApproval', 'true');
         return $this;
     }
 
