@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Zohocrmclient by christiaan</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/christiaan/zohocrmclient">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/christiaan/zohocrmclient/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/christiaan/zohocrmclient/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Zohocrmclient</h1>
+          <p>Provides a clean readable PHP API to the Zoho Rest API</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/christiaan">christiaan</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="zohocrmclient" class="anchor" href="#zohocrmclient"><span class="octicon octicon-link"></span></a>ZohoCRMClient</h1>
+
+<p><a href="https://scrutinizer-ci.com/g/christiaan/zohocrmclient/"><img src="https://scrutinizer-ci.com/g/christiaan/zohocrmclient/badges/quality-score.png?s=67d109ea323c9024fb43ff1c8a23a5b4c676dbce" alt="Scrutinizer Quality Score"></a>
+<a href="https://travis-ci.org/christiaan/zohocrmclient"><img src="https://travis-ci.org/christiaan/zohocrmclient.png" alt="Build Status"></a></p>
+
+<p>Provides a clean readable PHP API to the <a href="https://www.zoho.com/crm/help/api/">Zoho Rest API</a>.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight highlight-php"><pre><span class="k">use</span> <span class="nx">Christiaan\ZohoCRMClient\ZohoCRMClient</span><span class="p">;</span>
+
+<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ZohoCRMClient</span><span class="p">(</span><span class="s1">'Leads'</span><span class="p">,</span> <span class="s1">'yourAuthKey'</span><span class="p">);</span>
+
+<span class="nv">$records</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getRecords</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="na">selectColumns</span><span class="p">(</span><span class="s1">'First Name'</span><span class="p">,</span> <span class="s1">'Last Name'</span><span class="p">,</span> <span class="s1">'Email'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">sortBy</span><span class="p">(</span><span class="s1">'Last Name'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">sortAsc</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="na">since</span><span class="p">(</span><span class="nb">date_create</span><span class="p">(</span><span class="s1">'last week'</span><span class="p">))</span>
+    <span class="o">-&gt;</span><span class="na">request</span><span class="p">();</span>
+
+<span class="k">echo</span> <span class="s1">'Content: '</span> <span class="o">.</span> <span class="nb">print_r</span><span class="p">(</span><span class="nv">$records</span><span class="p">,</span> <span class="k">true</span><span class="p">)</span> <span class="o">.</span> <span class="nx">PHP_EOL</span><span class="p">;</span>
+
+</pre></div>
+
+<h2>
+<a name="using-custom-transport-settings-to-enable-logging" class="anchor" href="#using-custom-transport-settings-to-enable-logging"><span class="octicon octicon-link"></span></a>Using custom transport settings to enable logging</h2>
+
+<div class="highlight highlight-php"><pre><span class="nv">$buzzTransport</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BuzzTransport</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nx">\Buzz\Browser</span><span class="p">(</span><span class="k">new</span> <span class="nx">\Buzz\Client\Curl</span><span class="p">()),</span>
+    <span class="s1">'https://crm.zoho.com/crm/private/xml/'</span>
+<span class="p">);</span>
+<span class="nv">$buzzTransport</span><span class="o">-&gt;</span><span class="na">setLogger</span><span class="p">(</span><span class="nv">$logger</span><span class="p">);</span>
+
+<span class="nv">$transport</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XmlDataTransportDecorator</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nx">AuthenticationTokenTransportDecorator</span><span class="p">(</span>
+        <span class="s1">'yourAuthKey'</span><span class="p">,</span>
+        <span class="nv">$buzzTransport</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ZohoCRMClient</span><span class="p">(</span><span class="s1">'Leads'</span><span class="p">,</span> <span class="nv">$transport</span><span class="p">);</span>
+</pre></div>
+
+<h2>
+<a name="implemented-calls" class="anchor" href="#implemented-calls"><span class="octicon octicon-link"></span></a>Implemented Calls</h2>
+
+<p>At the moment only the following calls are supported</p>
+
+<ul>
+<li>getRecords</li>
+<li>getRecordById</li>
+<li>insertRecords</li>
+<li>updateRecords</li>
+<li>getFields</li>
+</ul><p>It is rather easy to add new calls, look at one of the classes in the Request dir for examples.
+After the Request class is made it might be necessary to alter the parsing of the response XML in the XmlDataTransportDecorator class.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
