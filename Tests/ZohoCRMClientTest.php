@@ -61,6 +61,13 @@ class ZohoCRMClientTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Christiaan\ZohoCRMClient\Transport\TransportRequest', $request);
     }
 
+    public function testConvertLead()
+    {
+        $request = $this->client->convertLead();
+
+        $this->assertInstanceOf('Christiaan\ZohoCRMClient\Request\ConvertLead', $request);
+    }
+
     protected function setUp()
     {
         $this->transport = new MockTransport();

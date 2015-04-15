@@ -116,6 +116,10 @@ class XmlDataTransportDecorator implements Transport
             return $this->parseResponsePostRecordsMultiple($xml);
         }
 
+        if ($this->method == 'convertLead') {
+            return $this->parseResponseConvertLead($xml);
+        }
+
         throw new Exception\UnexpectedValueException('Xml doesn\'t contain expected fields');
     }
 
@@ -200,5 +204,16 @@ class XmlDataTransportDecorator implements Transport
         }
 
         return $records;
+    }
+
+    private function parseResponseConvertLead($xml)
+    {
+        $response = [
+            'Contact' => (string)$xml->Contact,
+            'Account' => (string)$xml->Account,
+            'Potential' => isset($xml->Potential) ? (string)$xml->Potential : null
+        ];
+
+        return $response;
     }
 }
