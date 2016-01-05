@@ -67,7 +67,8 @@ class XmlDataTransportDecorator implements Transport
                         $value = $value->format('Y-m-d H:i:s');
                     }
                 }
-                $keyValue = $row->addChild('FL', $value);
+                $keyValue = $row->addChild('FL');
+                $keyValue[0] = $value;
                 $keyValue->addAttribute('val', $key);
             }
         }
