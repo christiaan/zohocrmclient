@@ -17,6 +17,11 @@ abstract class AbstractRequest implements RequestInterface
         $this->configureRequest();
     }
 
+    public function getTransport()
+    {
+        return $this->request;
+    }
+
     /**
      * @throws UnexpectedValueException
      * @return Record[]|Field[]
