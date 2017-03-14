@@ -1,9 +1,9 @@
 {
-    "name": "christiaan/zohocrmclient",
+    "name": "broklyngagah/zohocrmclient",
     "type": "library",
     "description": "Provides a clean readable PHP API to the Zoho Rest API",
     "keywords": ["Zoho", "API Client", "CRM"],
-    "homepage": "http://christiaan.github.io/zohocrmclient",
+    "homepage": "https://github.com/broklyngagah/zohocrmclient",
     "license": "MIT",
     "authors": [
         {
