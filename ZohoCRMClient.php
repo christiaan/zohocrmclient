@@ -95,6 +95,14 @@ class ZohoCRMClient implements LoggerAwareInterface
     }
 
     /**
+     * @return Request\SearchRecords
+     */
+    public function searchRecords()
+    {
+        return new Request\SearchRecords($this->request());
+    }
+
+    /**
      * @return \Christiaan\ZohoCRMClient\Transport\TransportRequest
      */
     protected function request()
