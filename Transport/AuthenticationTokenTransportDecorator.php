@@ -1,10 +1,13 @@
 <?php
 namespace Christiaan\ZohoCRMClient\Transport;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+
 /**
  * Transport Decorator that transparently adds the authtoken param and scope param
  */
-class AuthenticationTokenTransportDecorator implements Transport
+class AuthenticationTokenTransportDecorator implements Transport, LoggerAwareInterface
 {
     private $authToken;
     private $transport;
@@ -21,5 +24,19 @@ class AuthenticationTokenTransportDecorator implements Transport
         $paramList['scope'] = 'crmapi';
 
         return $this->transport->call($module, $method, $paramList);
+    }
+
+    /**
+     * Sets a logger instance on the object.
+     *
+     * @param LoggerInterface $logger
+     *
+     * @return void
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        if ($this->transport instanceof LoggerAwareInterface) {
+            $this->transport->setLogger($logger);
+        }
     }
 }

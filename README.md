@@ -17,10 +17,22 @@ $records = $client->getRecords()
     ->request();
 
 echo 'Content: ' . print_r($records, true) . PHP_EOL;
-
 ```
 
-## Using custom transport settings to enable logging
+### Enabling logging
+
+You can enable logging by adding the following line after instantiating the client:
+
+```php
+$client->setLogger($myPsrLogger);
+```
+
+The logger should implement the PSR `LoggerInterface`. If the transport being used implements `LoggerAwareInterface`, this call will chaing to set the logger for the transport as well. The build in transport supports this.
+
+### Using custom transport
+
+If we wish, you can supply a custom transport class to ZohoCRMClient, as shown here:
+
 ```php
 $buzzTransport = new BuzzTransport(
     new \Buzz\Browser(new \Buzz\Client\Curl()),
