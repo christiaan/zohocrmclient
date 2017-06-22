@@ -48,11 +48,12 @@ $client = new ZohoCRMClient('Leads', $transport);
 
 ## Implemented Calls
 At the moment only the following calls are supported
-- getRecords
-- getRecordById
-- insertRecords
-- updateRecords
-- getFields
+- [getRecords](https://www.zoho.eu/crm/help/api/getrecords.html)
+- [getRecordById](https://www.zoho.eu/crm/help/api/getrecordbyid.html) 
+- [insertRecords](https://www.zoho.eu/crm/help/api/insertrecords.html)
+- [updateRecords](https://www.zoho.eu/crm/help/api/updaterecords.html)
+- [getFields](https://www.zoho.eu/crm/help/api/getfields.html)
+- [searchResults](https://www.zoho.eu/crm/help/api/searchrecords.html)
 
 It is rather easy to add new calls, look at one of the classes in the Request dir for examples.
 After the Request class is made it might be necessary to alter the parsing of the response XML in the XmlDataTransportDecorator class.
