@@ -47,6 +47,10 @@ class ZohoCRMClient implements LoggerAwareInterface
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
+
+        if ($this->transport instanceof LoggerAwareInterface) {
+            $this->transport->setLogger($logger);
+        }
     }
 
     /**
