@@ -20,6 +20,14 @@ echo 'Content: ' . print_r($records, true) . PHP_EOL;
 
 ```
 
+### Choosing a different Zoho realm
+
+ZohoCRMClient will by default connect to the API at `crm.zoho.com`. If you wish to connect to a different one, you can supply the TLD as the third parameter to the constructor. For example, customer on the EU realm should instantiate the client like this:
+
+``` php
+$client = new ZohoCRMClient('Leads', 'yourAuthKey', 'eu');
+```
+
 ## Using custom transport settings to enable logging
 ```php
 $buzzTransport = new BuzzTransport(
