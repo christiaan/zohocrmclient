@@ -17,8 +17,16 @@ $records = $client->getRecords()
     ->request();
 
 echo 'Content: ' . print_r($records, true) . PHP_EOL;
-
 ```
+
+### Enabling logging
+
+You can enable logging by adding the following line after instantiating the client:
+
+```php
+$client->setLogger($myPsrLogger);
+```
+The logger should implement the PSR `LoggerInterface`. If the transport being used implements `LoggerAwareInterface`, this call will chaing to set the logger for the transport as well. The build in transport supports this.
 
 ### Choosing a different Zoho realm
 
@@ -28,7 +36,10 @@ ZohoCRMClient will by default connect to the API at `crm.zoho.com`. If you wish 
 $client = new ZohoCRMClient('Leads', 'yourAuthKey', 'eu');
 ```
 
-## Using custom transport settings to enable logging
+### Using custom transport
+
+If we wish, you can supply a custom transport class to ZohoCRMClient, as shown here:
+
 ```php
 $buzzTransport = new BuzzTransport(
     new \Buzz\Browser(new \Buzz\Client\Curl()),
@@ -113,4 +124,3 @@ $records = $client
 ```
 
 See the [Zoho documentation](https://www.zoho.eu/crm/help/api/searchrecords.html) for the full explanation of how to write the criteria.
-

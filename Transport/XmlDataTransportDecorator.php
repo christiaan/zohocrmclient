@@ -4,12 +4,14 @@ namespace Christiaan\ZohoCRMClient\Transport;
 use Christiaan\ZohoCRMClient\Exception;
 use Christiaan\ZohoCRMClient\Response;
 use Christiaan\ZohoCRMClient\ZohoError;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 
 /**
  * XmlDataTransportDecorator handles the XML communication with Zoho
  */
-class XmlDataTransportDecorator implements Transport
+class XmlDataTransportDecorator implements Transport, LoggerAwareInterface
 {
     /** @var Transport */
     private $transport;
@@ -44,6 +46,20 @@ class XmlDataTransportDecorator implements Transport
         $response = $this->transport->call($module, $method, $paramList);
 
         return $this->parse($response);
+    }
+
+    /**
+     * Sets a logger instance on the object.
+     *
+     * @param LoggerInterface $logger
+     *
+     * @return void
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        if ($this->transport instanceof LoggerAwareInterface) {
+            $this->transport->setLogger($logger);
+        }
     }
 
     /**
