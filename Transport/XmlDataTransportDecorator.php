@@ -82,6 +82,8 @@ class XmlDataTransportDecorator implements Transport, LoggerAwareInterface
                     } else {
                         $value = $value->format('Y-m-d H:i:s');
                     }
+                } elseif (is_bool($value)) {
+                    $value = $value ? 'true' : 'false';
                 }
                 $keyValue = $row->addChild('FL');
                 $keyValue[0] = $value;
